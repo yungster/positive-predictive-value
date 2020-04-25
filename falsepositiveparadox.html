@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<title>d3-simple-slider</title>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
+
+<div class="container">
+  <div id="sliders-container">
+    <div id="slider-container">
+      <div id='infection-rate-slider'>
+        <span class="slider-title">Infection Rate: </span>
+        <span id="value-simple"></span>
+        <div id="slider-simple"></div>
+      </div>
+    </div>
+    <div class="slider-container">
+      <div id='false-positive-rate-slider'>
+        <span class="slider-title">False Positive Rate: </span>
+        <span id="value-step"></span>
+        <div id="slider-step"></div>
+      </div>
+    </div>
+  </div>
+  <div id="graphics-container">
+    <div id='population-box'>
+    </div>
+  </div>
+</div>
+<script src="sliders.js" charset="utf-8"></script>
+<script src="d3_population_grid.js" charset="utf-8"></script>
+
+<script>
+// color boxes based on slider values
+trueNegColor = '#d9d9d9' //gray
+truePosColor = '#e31a1c' //red
+falsePosColor = '#feb24c' //orange
+
+function shuffle(array) {
+  var copy = [], n = array.length, i;
+  // While there remain elements to shuffle…
+  while (n) {
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * array.length);
+    // If not already shuffled, move it to the new array.
+    if (i in array) {
+      copy.push(array[i]);
+      delete array[i];
+      n--;
+    }
+  }
+  return copy;
+}
+
+var boxIndices = d3.range(1, numBoxes + 1, 1);
+shuffledIndices = shuffle(boxIndices);
+
+var truePositives = [],
+    trueNegatives = [],
+    falsePositives = [],
+    falseNegatives = [];
+
+updateBoxes();
+
+infectedRateSlider.on('onchange', function spit(d) {
+  d3.select('#value-simple').text(d3.format('.1%')(infectedRateSlider.value()));
+  updateBoxes();
+})
+
+falsePosSlider.on('onchange', function spit(d) {
+  updateBoxes();
+})
+
+function updateBoxes() {
+  iRate = infectedRateSlider.value();
+  fpRate = falsePosSlider.value();
+  numInfected = iRate * numBoxes;
+  numHealthy = numBoxes - numInfected;
+  numFP = fpRate * numHealthy;
+  numTP = numInfected;
+  numTN = numHealthy - numFP;
+  numFN = 0;
+
+  // updateBoxes
+  truePositives = shuffledIndices.slice(0, numTP);
+  trueNegatives = shuffledIndices.slice(numTP, numTP + numTN);
+  falsePositives = shuffledIndices.slice(numTN + numTP, );
+  // falseNegatives = boxIndices.slice(numTN, numTN + numTP);
+
+  // color healthy gray
+  colorBoxes(trueNegatives, trueNegColor)
+  // color infected red
+  colorBoxes(truePositives, truePosColor)
+  // color false positives yellow
+  colorBoxes(falsePositives, falsePosColor)
+}
+
+function colorBoxes(boxArray, clr) {
+  boxArray.forEach(function(ix){
+    d3.select("#s-"+ix).attr("fill", clr);
+  })
+
+}
+
+// colorBoxes(infectedBoxes, '#222222')
+</script>
+<style type="text/css">
+
+  .slider-title {
+    font-weight: bold;
+  }
+
+  #sliders-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 5px;
+    align-content: center;
+    align-items: center;
+  }
+
+  #slider-container {
+    margin: 10px;
+  }
+
+  #graphics-container {
+    /* width: 600px; */
+
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+  }
+
+  .rect {
+    padding: 2px;
+  }
+
+
+
+</style>

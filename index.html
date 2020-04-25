@@ -26,6 +26,13 @@
         <div id="slider-falsepositive"></div>
       </div>
     </div>
+    <div class="slider-container">
+      <div id='false-negative-rate-slider'>
+        <span class="slider-title">False Negative Rate: </span>
+        <span id="value-falsenegative"></span>
+        <div id="slider-falsenegative"></div>
+      </div>
+    </div>
   </div>
   <div id="graphics-container">
     <div id='population-box'>
@@ -86,16 +93,21 @@ falsePosSlider.on('onchange', function spit(d) {
   updateAll();
 })
 
+falseNegSlider.on('onchange', function spit(d) {
+  d3.select('#value-falsenegative').text(d3.format('.0%')(falseNegSlider.value()));
+  updateAll();
+})
+
 function computeRates() {
   iRate = infectedRateSlider.value();
   fpRate = falsePosSlider.value();
-  fnRate = 0;
+  fnRate = falseNegSlider.value();
   numInfected = iRate * numBoxes;
   numHealthy = numBoxes - numInfected;
   numFP = fpRate * numHealthy;
-  numTP = numInfected;
   numTN = numHealthy - numFP;
-  numFN = 0;
+  numFN = fnRate * numInfected;
+  numTP = numInfected - numFN;
   posPredictiveValue = (1 - fnRate) * iRate / (iRate * (1 - fnRate) + (1 - iRate) * fpRate)
 }
 
@@ -106,17 +118,20 @@ function updatePosPredVal(){
 
 function updateBoxes() {
   // update box indices
-  truePositivesIx = shuffledIndices.slice(0, numTP);
-  trueNegativesIx = shuffledIndices.slice(numTP, numTP + numTN);
-  falsePositivesIx = shuffledIndices.slice(numTN + numTP, );
-  // falseNegatives = boxIndices.slice(numTN, numTN + numTP);
+  falseNegativesIx = shuffledIndices.slice(0, numFN);
+  truePositivesIx = shuffledIndices.slice(numFN, numFN + numTP);
+  trueNegativesIx = shuffledIndices.slice(numFN + numTP, numFN + numTP + numTN);
+  falsePositivesIx = shuffledIndices.slice(numFN + numTP + numTN, );
 
-  // color healthy gray
-  colorBoxes(trueNegativesIx, trueNegColor)
-  // color infected red
-  colorBoxes(truePositivesIx, truePosColor)
-  // color false positives yellow
-  colorBoxes(falsePositivesIx, falsePosColor)
+  // color healthy
+  colorBoxes(trueNegativesIx, trueNegColor,'#ffffff')
+  // color infected
+  colorBoxes(truePositivesIx, truePosColor, '#ffffff')
+  // color false positives
+  colorBoxes(falsePositivesIx, falsePosColor, '#ffffff')
+  // false negatives
+  colorBoxes(falseNegativesIx, trueNegColor, truePosColor)
+
 }
 
 function updateAll(){
@@ -125,9 +140,9 @@ function updateAll(){
   updatePosPredVal();
 }
 
-function colorBoxes(boxArray, clr) {
+function colorBoxes(boxArray, clr, clroutside) {
   boxArray.forEach(function(ix){
-    d3.select("#s-"+ix).attr("fill", clr);
+    d3.select("#s-"+ix).attr("fill", clr).attr("stroke", clroutside);
   })
 }
 

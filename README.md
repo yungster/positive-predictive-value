@@ -1,37 +1,21 @@
-## Welcome to GitHub Pages
+## Positive Predictive Value Calculator
 
-You can use the [editor on GitHub](https://github.com/yungster/positive-predictive-value/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This powers a [visualization](https://yungster.github.io/positive-predictive-value/) of the positive predictive value (i.e. precision) of a test given a base rate for a population. The positive predictive value of a test gives the probability of having a condition given a positive test result for a test of that condition.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The population prevalence for the condition being tested for is used as the prior probability. In the context of testing for the COVID-19 virus, this would be the fraction of a certain population that is currently infected. In the case of antibody testing, it is the fraction of the population that possesses the antibody being tested for.
 
-### Markdown
+### False Positive Paradox
+Even with very accurate tests, positive predictive power can be low when a condition is rare in a population. In particular, when the false positive rate is higher than the prevalence of the condition, this can give rise to what's sometimes referred to as a false positive paradox, or a base rate fallacy.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Blog Posts
+Two blog posts from April 2020 on the topic Where You Live Affects What Your COVID-19 Test Means
+* [Link to April 18th Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a9cd798fcd10)
+* [Link to April 23rd Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a-visual-interpretation-5762d3c2a188) with a visual interpretation with the help of Yael Yungster and Jeff Mekler.
 
-```markdown
-Syntax highlighted code block
+### Computation of Positive Predictive Value
 
-# Header 1
-## Header 2
-### Header 3
+This is calculated with Bayes' Theorem:
 
-- Bulleted
-- List
+<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected }|\text{ positive}) = \frac{P(\text{positive }|\text{ infected})P(\text{infected})}{P(\text{positive})}">
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/yungster/positive-predictive-value/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected }|\text{ positive}) = \frac{(1-\text{FN rate)}\times\text{prevalence}}{(1-\text{FN rate)}\times\text{prevalence} + (1-\text{prevalence})\times(\text{FP rate})}">

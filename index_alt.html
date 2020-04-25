@@ -14,7 +14,7 @@
   <div id="sliders-container">
     <div id="slider-container">
       <div id='infection-rate-slider'>
-        <span class="slider-title">Population Infection Rate: </span>
+        <span class="slider-title">Infection Rate: </span>
         <span id="value-infection"></span>
         <div id="slider-infection"></div>
       </div>
@@ -35,57 +35,24 @@
     </div>
   </div>
   <div id="graphics-container">
-    <div id='population-container'>
-      <div id='population-title'>
-        Population Test Results
-      </div>
-      <div id='population-box'></div>
+    <div id='true-positive-box'>
     </div>
-    <div id='positives-container'>
-      <div id='positives-title'>
-        Positive Test Results Only
-      </div>
-      <div id='positives-graphics'>
-        <div id='true-pos-block'>
-          <div id='true-positives-box'></div>
-          <div id='true-pos-box-text'>
-            True positives
-          </div>
-        </div>
-        <div id='false-pos-block'>
-          <div id='false-positives-box'></div>
-          <div id='false-pos-box-text'>
-            False positives
-          </div>
-        </div>
-      </div>
-      <div id="values-container">
-        <div id='pos-pred-value-container'>
-          <span class="value-title">Positive Predictive Value: </span>
-          <span id='pos-pred-value'>
-        </div>
-      </div>
+  </div>
+  <div id="values-container">
+    <div id='pos-pred-value-container'>
+      <span class="value-title">Positive Predictive Value: </span>
+      <span id='pos-pred-value'>
     </div>
   </div>
 </div>
 <script src="sliders.js" charset="utf-8"></script>
-<script src="makeGrid.js" charset="utf-8"></script>
+<script src="d3_positive_grid.js" charset="utf-8"></script>
 
 <script>
 // color boxes based on slider values
 trueNegColor = '#d9d9d9' //gray
 truePosColor = '#e31a1c' //red
 falsePosColor = '#feb24c' //orange
-
-// population grid
-var numRows = 25, numCols = 40, numBoxes = numCols * numRows;
-makeGrid(numRows, numCols, '#population-box', 'pop-')
-
-var numRowsTP = 20, numColsTP = 5, numBoxesTP = numColsTP * numRowsTP;
-makeGrid(numRowsTP, numColsTP, '#true-positives-box', 'tp-', fillColor='#ffffff')
-
-var numRowsFP = 20, numColsFP = 5, numBoxesFP = numColsFP * numRowsFP;
-makeGrid(numRowsFP, numColsFP, '#false-positives-box', 'tn-', fillColor='#ffffff')
 
 function shuffle(array) {
   var copy = [], n = array.length, i;
@@ -103,14 +70,15 @@ function shuffle(array) {
   return copy;
 }
 
-var boxIndices = d3.range(1, numBoxes + 1, 1);
-shuffledIndices = shuffle(boxIndices);
+var trueposIndices = d3.range(1, numTruePosBoxes + 1, 1);
+
+var truePositivesIx = [],
+    trueNegativesIx = [],
+    falsePositivesIx = [],
+    falseNegativesIx = [];
 
 var iRate, fpRate, fnRate, numInfected, numHealthy,
     numFP, numTP, numTN, numFN, posPredictiveValue;
-
-var truePosBoxIndices = d3.range(1, numBoxesTP + 1, 1);
-var falsePosBoxIndices = d3.range(1, numBoxesFP + 1, 1);
 
 updateAll();
 
@@ -147,49 +115,30 @@ function updatePosPredVal(){
 }
 
 
-function updateBoxes() {
+function updateTruePosBoxes() {
   // update box indices
-  falseNegativesIx = shuffledIndices.slice(0, numFN);
-  truePositivesIx = shuffledIndices.slice(numFN, numFN + numTP);
-  trueNegativesIx = shuffledIndices.slice(numFN + numTP, numFN + numTP + numTN);
-  falsePositivesIx = shuffledIndices.slice(numFN + numTP + numTN, );
-
-  // color healthy
-  colorBoxes(trueNegativesIx, trueNegColor, '#ffffff', 'pop-')
-  // color infected
-  colorBoxes(truePositivesIx, truePosColor, '#ffffff', 'pop-')
-  // color false positives
-  colorBoxes(falsePositivesIx, falsePosColor, '#ffffff', 'pop-')
-  // false negatives
-  colorBoxes(falseNegativesIx, trueNegColor, truePosColor, 'pop-')
-}
-
-function updatePosBoxes() {
-  truePosBoxIx = truePosBoxIndices.slice(numBoxesTP - numTP, );
-  notTruePosBoxIx = truePosBoxIndices.slice(0, numBoxesTP - numTP);
-
-  falsePosBoxIx = falsePosBoxIndices.slice(numBoxesFP - numFP, );
-  notFalsePosBoxIx = falsePosBoxIndices.slice(0, numBoxesFP - numFP);
-
-  colorBoxes(truePosBoxIx, truePosColor,'#ffffff', 'tp-');
-  colorBoxes(notTruePosBoxIx, '#ffffff','#ffffff', 'tp-');
-
-  colorBoxes(falsePosBoxIx, falsePosColor,'#ffffff', 'tn-');
-  colorBoxes(notFalsePosBoxIx, '#ffffff','#ffffff', 'tn-');
+  truePosBoxIx = trueposIndices.slice(numTruePosBoxes - numTP, );
+  colorTruePosBoxes(truePosBoxIx, truePosColor,'#ffffff');
 }
 
 function updateAll(){
   computeRates();
   updateBoxes();
-  updatePosBoxes();
   updatePosPredVal();
 }
 
-function colorBoxes(boxArray, clr, clroutside, boxPrefix) {
+function colorBoxes(boxArray, clr, clroutside) {
   boxArray.forEach(function(ix){
-    d3.select('#' + boxPrefix + ix).attr("fill", clr).attr("stroke", clroutside);
+    d3.select("#s-"+ix).attr("fill", clr).attr("stroke", clroutside);
   })
 }
+
+function colorTruePosBoxes(boxArray, clr, clroutside) {
+  boxArray.forEach(function(ix){
+    d3.select("#tp-"+ix).attr("fill", clr).attr("stroke", clroutside);
+  })
+}
+
 
 </script>
 <style type="text/css">
@@ -216,29 +165,20 @@ function colorBoxes(boxArray, clr, clroutside, boxPrefix) {
     margin: 10px;
   }
 
-  #graphics-container, #values-container, #positives-graphics {
+  #graphics-container, #values-container {
     /* width: 600px; */
 
     display: flex;
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-around;
-    margin: 10px;
-  }
-
-  #true-positives-box, #false-positives-box
-   {
-    margin: 10px;
+    margin: 15px;
   }
 
   .rect {
     padding: 2px;
   }
-  #positives-title, #population-title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 14pt;
-    margin: 10px;
-  }
+
+
 
 </style>

@@ -4,6 +4,10 @@ This work consists of a [visualization](https://yungster.github.io/positive-pred
 
 The population prevalence for the condition being tested for is used as the prior probability. In the context of testing for the COVID-19 virus, this would be the fraction of a certain population that is currently infected. In the case of antibody testing, it is the fraction of the population that possesses the antibody being tested for.
 
+The calculator updates the positive predictive value based on user selections for the prevalence in the population and the false positive/negative rates for the test.
+
+![Demo Graphic](/img/app_preview.png)
+
 ### Blog Posts
 
 The work complements two blog posts from April 2020 on the topic of, _Where You Live Affects What Your COVID-19 Test Means_.

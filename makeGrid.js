@@ -1,7 +1,7 @@
 // numTruePosCols
 function makeGrid(numRows, numCols, elementSelector, boxIdPrefix,
                   fillColor='#d9d9d9'){
-  var square = 15,
+  var square = 12,
     numBoxes = numCols * numRows;
     w = numCols * square,
     h = numRows * square;

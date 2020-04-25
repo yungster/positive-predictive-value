@@ -12,12 +12,12 @@ var infectedRateSlider = d3
   .step(0.001)
   .default(0.01)
   .on('onchange', val => {
-    d3.select('#value-simple').text(d3.format('.1%')(val));
+    d3.select('#value-infection').text(d3.format('.1%')(val));
   });
 
 
 var gSimple = d3
-  .select('div#slider-simple')
+  .select('div#slider-infection')
   .append('svg')
   .attr('width', 350)
   .attr('height', 100)
@@ -26,7 +26,7 @@ var gSimple = d3
 
 gSimple.call(infectedRateSlider);
 
-d3.select('#value-simple').text(d3.format('.1%')(infectedRateSlider.value()));
+d3.select('#value-infection').text(d3.format('.1%')(infectedRateSlider.value()));
 
 // Step
 var falsePosSlider = d3
@@ -39,11 +39,11 @@ var falsePosSlider = d3
   .step(0.001)
   .default(0.01)
   .on('onchange', val => {
-    d3.select('#value-step').text(d3.format('.1%')(val));
+    d3.select('#value-falsepositive').text(d3.format('.1%')(val));
   });
 
 var gStep = d3
-  .select('div#slider-step')
+  .select('div#slider-falsepositive')
   .append('svg')
   .attr('width', 350)
   .attr('height', 100)
@@ -52,4 +52,4 @@ var gStep = d3
 
 gStep.call(falsePosSlider);
 
-d3.select('#value-step').text(d3.format('.1%')(falsePosSlider.value()));
+d3.select('#value-falsepositive').text(d3.format('.1%')(falsePosSlider.value()));

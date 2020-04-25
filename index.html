@@ -15,15 +15,15 @@
     <div id="slider-container">
       <div id='infection-rate-slider'>
         <span class="slider-title">Infection Rate: </span>
-        <span id="value-simple"></span>
-        <div id="slider-simple"></div>
+        <span id="value-infection"></span>
+        <div id="slider-infection"></div>
       </div>
     </div>
     <div class="slider-container">
       <div id='false-positive-rate-slider'>
         <span class="slider-title">False Positive Rate: </span>
-        <span id="value-step"></span>
-        <div id="slider-step"></div>
+        <span id="value-falsepositive"></span>
+        <div id="slider-falsepositive"></div>
       </div>
     </div>
   </div>
@@ -68,11 +68,12 @@ var truePositives = [],
 updateBoxes();
 
 infectedRateSlider.on('onchange', function spit(d) {
-  d3.select('#value-simple').text(d3.format('.1%')(infectedRateSlider.value()));
+  d3.select('#value-infection').text(d3.format('.1%')(infectedRateSlider.value()));
   updateBoxes();
 })
 
 falsePosSlider.on('onchange', function spit(d) {
+  d3.select('#value-falsepositive').text(d3.format('.1%')(falsePosSlider.value()));
   updateBoxes();
 })
 

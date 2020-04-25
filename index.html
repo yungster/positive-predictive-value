@@ -31,6 +31,12 @@
     <div id='population-box'>
     </div>
   </div>
+  <div id="values-container">
+    <div id='pos-pred-value-container'>
+      <span class="value-title">Positive Predictive Value: </span>
+      <span id='pos-pred-value'>
+    </div>
+  </div>
 </div>
 <script src="sliders.js" charset="utf-8"></script>
 <script src="d3_population_grid.js" charset="utf-8"></script>
@@ -60,61 +66,82 @@ function shuffle(array) {
 var boxIndices = d3.range(1, numBoxes + 1, 1);
 shuffledIndices = shuffle(boxIndices);
 
-var truePositives = [],
-    trueNegatives = [],
-    falsePositives = [],
-    falseNegatives = [];
+var truePositivesIx = [],
+    trueNegativesIx = [],
+    falsePositivesIx = [],
+    falseNegativesIx = [];
 
-updateBoxes();
+var iRate, fpRate, fnRate, numInfected, numHealthy,
+    numFP, numTP, numTN, numFN, posPredictiveValue;
+
+updateAll();
 
 infectedRateSlider.on('onchange', function spit(d) {
   d3.select('#value-infection').text(d3.format('.1%')(infectedRateSlider.value()));
-  updateBoxes();
+  updateAll();
 })
 
 falsePosSlider.on('onchange', function spit(d) {
   d3.select('#value-falsepositive').text(d3.format('.1%')(falsePosSlider.value()));
-  updateBoxes();
+  updateAll();
 })
 
-function updateBoxes() {
+function computeRates() {
   iRate = infectedRateSlider.value();
   fpRate = falsePosSlider.value();
+  fnRate = 0;
   numInfected = iRate * numBoxes;
   numHealthy = numBoxes - numInfected;
   numFP = fpRate * numHealthy;
   numTP = numInfected;
   numTN = numHealthy - numFP;
   numFN = 0;
+  posPredictiveValue = (1 - fnRate) * iRate / (iRate * (1 - fnRate) + (1 - iRate) * fpRate)
+}
 
-  // updateBoxes
-  truePositives = shuffledIndices.slice(0, numTP);
-  trueNegatives = shuffledIndices.slice(numTP, numTP + numTN);
-  falsePositives = shuffledIndices.slice(numTN + numTP, );
+function updatePosPredVal(){
+  d3.select('#pos-pred-value').text(d3.format('.1%')(posPredictiveValue));
+}
+
+
+function updateBoxes() {
+  // update box indices
+  truePositivesIx = shuffledIndices.slice(0, numTP);
+  trueNegativesIx = shuffledIndices.slice(numTP, numTP + numTN);
+  falsePositivesIx = shuffledIndices.slice(numTN + numTP, );
   // falseNegatives = boxIndices.slice(numTN, numTN + numTP);
 
   // color healthy gray
-  colorBoxes(trueNegatives, trueNegColor)
+  colorBoxes(trueNegativesIx, trueNegColor)
   // color infected red
-  colorBoxes(truePositives, truePosColor)
+  colorBoxes(truePositivesIx, truePosColor)
   // color false positives yellow
-  colorBoxes(falsePositives, falsePosColor)
+  colorBoxes(falsePositivesIx, falsePosColor)
+}
+
+function updateAll(){
+  computeRates();
+  updateBoxes();
+  updatePosPredVal();
 }
 
 function colorBoxes(boxArray, clr) {
   boxArray.forEach(function(ix){
     d3.select("#s-"+ix).attr("fill", clr);
   })
-
 }
 
-// colorBoxes(infectedBoxes, '#222222')
 </script>
 <style type="text/css">
 
   .slider-title {
-    font-weight: bold;
+    font-weight: normal;
   }
+
+  .value-title, #pos-pred-value {
+    font-size: 14pt;
+  }
+  #pos-pred-value {font-weight: bold}
 
   #sliders-container {
     display: flex;
@@ -129,12 +156,14 @@ function colorBoxes(boxArray, clr) {
     margin: 10px;
   }
 
-  #graphics-container {
+  #graphics-container, #values-container {
     /* width: 600px; */
 
     display: flex;
+    flex-wrap: wrap;
     align-content: center;
     justify-content: space-around;
+    margin: 15px;
   }
 
   .rect {

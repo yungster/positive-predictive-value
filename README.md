@@ -1,10 +1,10 @@
 ## Positive Predictive Value Calculator
 
-This work complements two blog posts from April 2020 on the topic _Where You Live Affects What Your COVID-19 Test Means_, the second of which has a visual interpretation of the false positive paradox thanks to Yael Yungster and Jeff Mekler.
+This work complements two blog posts from April 2020 on the topic _Where You Live Affects What Your COVID-19 Test Means_.
 * [Link to April 18th Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a9cd798fcd10)
 * [Link to April 23rd Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a-visual-interpretation-5762d3c2a188)
 
-This powers a [visualization](https://yungster.github.io/positive-predictive-value/) of the positive predictive value (i.e. precision) of a test given a base rate for a population. The positive predictive value of a test gives the probability of having a condition given a positive test result for a test of that condition.
+This work consists of a [visualization](https://yungster.github.io/positive-predictive-value/) of the positive predictive value (i.e. precision) of a test given a base rate for a population. The positive predictive value of a test gives the probability of having a condition given a positive test result for a test of that condition. The inspiration for this comes from the visual interpretation of the false positive paradox that Yael Yungster and Jeff Mekler created for the second blog post above.
 
 The population prevalence for the condition being tested for is used as the prior probability. In the context of testing for the COVID-19 virus, this would be the fraction of a certain population that is currently infected. In the case of antibody testing, it is the fraction of the population that possesses the antibody being tested for.
 

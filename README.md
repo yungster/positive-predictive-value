@@ -16,6 +16,6 @@ Two blog posts from April 2020 on the topic Where You Live Affects What Your COV
 
 This is calculated with Bayes' Theorem:
 
-<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected }|\text{ positive}) = \frac{P(\text{positive }|\text{ infected})P(\text{infected})}{P(\text{positive})}">
+<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected}\hspace{1mm}|\hspace{1mm}\text{positive}) = \frac{P(\text{positive}\hspace{1mm}|\hspace{1mm}\text{infected})P(\text{infected})}{P(\text{positive})}">
 
-<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected }|\text{ positive}) = \frac{(1-\text{FN rate)}\times\text{prevalence}}{(1-\text{FN rate)}\times\text{prevalence} + (1-\text{prevalence})\times(\text{FP rate})}">
+<img src="https://render.githubusercontent.com/render/math?math=P(\text{infected}\hspace{1mm}|\hspace{1mm}\text{ positive}) = \frac{(1-\text{FN rate)}\times\text{prevalence}}{(1-\text{FN rate)}\times\text{prevalence} + (1-\text{prevalence})\times(\text{FP rate})}">

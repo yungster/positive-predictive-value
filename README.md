@@ -9,6 +9,7 @@ The population prevalence for the condition being tested for is used as the prio
 The work complements two blog posts from April 2020 on the topic of, _Where You Live Affects What Your COVID-19 Test Means_.
 * [Link to April 18th Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a9cd798fcd10)
 * [Link to April 23rd Post](https://medium.com/@niryungster/where-you-live-affects-what-your-covid-19-test-means-a-visual-interpretation-5762d3c2a188)
+
 The concept for this visualization comes from one created by Yael Yungster and Jeff Mekler in the second blog post above to illustrate the false positive paradox.
 
 ### False Positive Paradox

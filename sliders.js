@@ -1,14 +1,14 @@
 var infData = [0.00, 0.02, 0.04, 0.06, 0.08, 0.1];
 var fpData = [0.00, 0.01, 0.02, 0.03, 0.04, 0.05];
-var fnData = [0.00, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3];
+var fnData = [0.00, 0.1, 0.2, 0.3];
 
 var infectedRateSlider = d3
   .sliderBottom()
   .min(d3.min(infData))
   .max(d3.max(infData))
-  .width(250)
+  .width(200)
   .tickFormat(d3.format('.1%'))
-  .ticks(5)
+  .ticks(6)
   .step(0.001)
   .default(0.01)
   .on('onchange', val => {
@@ -22,7 +22,7 @@ var gSimple = d3
   .attr('width', 250)
   .attr('height', 100)
   .append('g')
-  .attr('transform', 'translate(30,30)');
+  .attr('transform', 'translate(11,20)');
 
 gSimple.call(infectedRateSlider);
 
@@ -32,9 +32,9 @@ var falsePosSlider = d3
   .sliderBottom()
   .min(d3.min(fpData))
   .max(d3.max(fpData))
-  .width(250)
+  .width(200)
   .tickFormat(d3.format('.1%'))
-  .ticks(5)
+  .ticks(6)
   .step(0.001)
   .default(0.01)
   .on('onchange', val => {
@@ -47,7 +47,7 @@ var gFP = d3
   .attr('width', 250)
   .attr('height', 100)
   .append('g')
-  .attr('transform', 'translate(30,30)');
+  .attr('transform', 'translate(11,20)');
 
 gFP.call(falsePosSlider);
 
@@ -57,9 +57,9 @@ var falseNegSlider = d3
   .sliderBottom()
   .min(d3.min(fnData))
   .max(d3.max(fnData))
-  .width(250)
+  .width(200)
   .tickFormat(d3.format('.0%'))
-  .ticks(5)
+  .ticks(7)
   .step(0.05)
   .default(0.1)
   .on('onchange', val => {
@@ -72,7 +72,7 @@ var gFN = d3
   .attr('width', 250)
   .attr('height', 100)
   .append('g')
-  .attr('transform', 'translate(30,30)');
+  .attr('transform', 'translate(11,20)');
 
 gFN.call(falseNegSlider);
 

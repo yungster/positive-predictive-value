@@ -1,10 +1,10 @@
 // numTruePosCols
 function makeGrid(numRows, numCols, elementSelector, boxIdPrefix,
                   fillColor='#d9d9d9'){
-  var square = 12,
+  var rect_height = 14, rect_width = 14,
     numBoxes = numCols * numRows;
-    w = numCols * square,
-    h = numRows * square;
+    w = numCols * rect_width,
+    h = numRows * rect_height;
 
   // create the svg
   var svg = d3.select(elementSelector).append('svg')
@@ -23,12 +23,12 @@ function makeGrid(numRows, numCols, elementSelector, boxIdPrefix,
       .attr("id", function(d, i) {
           return boxIdPrefix + (n * numCols + i + 1);
         })
-      .attr("width", square - 2)
-      .attr("height", square - 2)
+      .attr("width", rect_width - 2)
+      .attr("height", rect_height - 2)
       .attr("x", function(d, i) {
-          return i * square;
+          return i * rect_width;
         })
-      .attr("y", n * square)
+      .attr("y", n * rect_height)
       .attr("fill", fillColor)
       .attr("stroke", '#fffffff')
   });

@@ -1,5 +1,5 @@
-var infData = [0.00, 0.02, 0.04, 0.06, 0.08, 0.1];
-var fpData = [0.00, 0.01, 0.02, 0.03, 0.04, 0.05];
+var infData = [0.00, 0.03, 0.06, 0.09, 0.12, 0.15];
+var fpData = [0.00, 0.03, 0.06, 0.09, 0.12, 0.15];
 var fnData = [0.00, 0.1, 0.2, 0.3];
 
 var infectedRateSlider = d3
@@ -8,9 +8,9 @@ var infectedRateSlider = d3
   .max(d3.max(infData))
   .width(225)
   .tickFormat(d3.format('.1%'))
-  .ticks(6)
+  .ticks(4)
   .step(0.001)
-  .default(0.02)
+  .default(0.03)
   .on('onchange', val => {
     d3.select('#value-infection').text(d3.format('.1%')(val));
   });
@@ -20,7 +20,7 @@ var gSimple = d3
   .select('div#slider-infection')
   .append('svg')
   .attr('width', 250)
-  .attr('height', 100)
+  .attr('height', 70)
   .append('g')
   .attr('transform', 'translate(11,30)');
 
@@ -34,9 +34,9 @@ var falsePosSlider = d3
   .max(d3.max(fpData))
   .width(225)
   .tickFormat(d3.format('.1%'))
-  .ticks(6)
+  .ticks(4)
   .step(0.001)
-  .default(0.01)
+  .default(0.05)
   .on('onchange', val => {
     d3.select('#value-falsepositive').text(d3.format('.1%')(val));
   });
@@ -45,7 +45,7 @@ var gFP = d3
   .select('div#slider-falsepositive')
   .append('svg')
   .attr('width', 250)
-  .attr('height', 100)
+  .attr('height', 70)
   .append('g')
   .attr('transform', 'translate(11,30)');
 
@@ -70,7 +70,7 @@ var gFN = d3
   .select('div#slider-falsenegative')
   .append('svg')
   .attr('width', 250)
-  .attr('height', 100)
+  .attr('height', 70)
   .append('g')
   .attr('transform', 'translate(11,30)');
 

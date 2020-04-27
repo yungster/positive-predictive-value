@@ -1,6 +1,6 @@
 ## Positive Predictive Value Calculator
 
-This work consists of a [visualization](https://yungster.github.io/positive-predictive-value/) of the positive predictive value (i.e. precision) of a test given a base rate for a population. The positive predictive value of a test gives the probability of having a condition given a positive test result for a test of that condition.
+This work consists of an interactive [visualization](https://yungster.github.io/positive-predictive-value/) of the positive predictive value (i.e. precision) of a test given a base rate for a population. The positive predictive value of a test gives the probability of having a condition given a positive test result for a test of that condition.
 
 The population prevalence for the condition being tested for is used as the prior probability. In the context of testing for the COVID-19 virus, this would be the fraction of a certain population that is currently infected. In the case of antibody testing, it is the fraction of the population that possesses the antibody being tested for.
 
